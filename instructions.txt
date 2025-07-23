@@ -1,0 +1,7 @@
+pipenv install django psycopg2-binary
+
+pipenv shell
+
+django-admin startproject <rpo name>_Config .  
+
+python manage.py startapp main_app

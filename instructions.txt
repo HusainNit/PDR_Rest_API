@@ -10,6 +10,17 @@
 # create the folder for the application (place of code and models) (terminal):
     python manage.py startapp main_app
 
+# make sure to add "main_app" to our applications:
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'main_app', # add this 
+    ]
+
 # run the server(terminal):
     python manage.py runserver  - ctl+c to stop it for next code edit
 
@@ -50,7 +61,85 @@
     4. create superUser to enter the admin dashboard (terminal), and fellow the requirement after enter this command:
         python manage.py createsuperuser
 
-    5. do to "http://127.0.0.1:8000/admin" and test the CRUD
+    5. go to "http://127.0.0.1:8000/admin" and test the CRUD
 
 
+
+
+
+# install packages for the rest API creation:
+    pipenv install djangorestframework django-cors-headers
+
+# lets add these packages to the applications:
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'main_app',
+        'corsheaders',  # add this 
+        'rest_framework', # add this
+    ]
+
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'corsheaders.middleware.CorsMiddleware', # add this
+    ]
+
+
+# add this to the end of the setting file(the frontend url + the port):
+    CORS_ORIGIN_WHITELIST = [
+        'http://localhost:3000' 
+    ]
+
+# in ./main_app:
+    create serializers.py to convert the data in dataBase to JSON, for frontend
+
+# past this in serializers.py:
+    from rest_framework import serializers
+    from .models import Todo
+    class TodoSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Todo
+            fields = ('id', 'title', 'description', 'completed')
+
+# create the views side (the api creation and define the serializer):
+    at "./main_app/views.py" add:
+        from django.shortcuts import render
+        from rest_framework import viewsets
+        from .serializers import TodoSerializer
+        from .models import Todo
+        # Create your views here.
+        class TodoView(viewsets.ModelViewSet):
+            serializer_class = TodoSerializer
+            queryset = Todo.objects.all()
+
+
+# create the routes for the api:
+    at "./PDR_Rest_API_Config/urls.py" add/modify:
+        from django.contrib import admin
+        from django.urls import path, include
+        from rest_framework import routers
+        from todo import views
+
+        router = routers.DefaultRouter()
+        router.register(r'todos', views.TodoView, 'todo')
+
+        urlpatterns = [
+            path('admin/', admin.site.urls),
+            path('api/', include(router.urls)),
+        ]
+
+# run the server and go to:
+    1. "http://127.0.0.1:8000/api/" to see if it work or not
+    2. "http://127.0.0.1:8000/api/todos/" to see(Get) data and create new data
+    3. "http://127.0.0.1:8000/api/todos/id/" - the one i add when iam in the admin dash "http://127.0.0.1:8000/api/todos/1/" to do edit(put) and delete
 

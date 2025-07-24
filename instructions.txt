@@ -97,7 +97,7 @@
 
 # add this to the end of the setting file(the frontend url + the port):
     CORS_ORIGIN_WHITELIST = [
-        'http://localhost:3000' 
+        'http://localhost:5173' 
     ]
 
 # in ./main_app:
@@ -149,3 +149,36 @@
 
 # create react project (terminal) - choose react , JavaScript + SWC :
     npm create vite@latest .
+
+# clean the project: 
+    1. delete the eslint.config.js file
+    2. clean the packages.json:
+        {
+            "name": "client",
+            "private": true,
+            "version": "0.0.0",
+            "type": "module",
+            "scripts": {
+                "dev": "vite",
+                "build": "vite build"
+            },
+            "dependencies": {
+                "react": "^19.1.0",
+                "react-dom": "^19.1.0"
+            },
+            "devDependencies": {
+                "@types/react": "^19.1.8",
+                "@types/react-dom": "^19.1.6",
+                "@vitejs/plugin-react-swc": "^3.10.2",
+                "vite": "^7.0.4"
+            }
+        }
+
+# install the packages (terminal):
+    npm i
+
+# run the project (terminal):
+    1. in terminal if you not in client dir: cd client
+    2. npm run dev
+
+

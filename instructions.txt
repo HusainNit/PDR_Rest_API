@@ -143,3 +143,9 @@
     2. "http://127.0.0.1:8000/api/todos/" to see(Get) data and create new data
     3. "http://127.0.0.1:8000/api/todos/id/" - the one i add when iam in the admin dash "http://127.0.0.1:8000/api/todos/1/" to do edit(put) and delete
 
+
+# create folder for the client (terminal):
+    mkdir client && cd client
+
+# create react project (terminal) - choose react , JavaScript + SWC :
+    npm create vite@latest .

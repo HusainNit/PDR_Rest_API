@@ -1,9 +1,56 @@
-pipenv install django psycopg2-binary
+# install packages and create virtual environment(VM) (terminal):
+    pipenv install django psycopg2-binary
 
-pipenv shell
+# enter the VM (terminal):
+    pipenv shell
 
-django-admin startproject <rpo name>_Config .  
+# create the configuration for django (dont forget the dot in the end) (terminal):
+    django-admin startproject <rpo name>_Config .  
 
-python manage.py startapp main_app
+# create the folder for the application (place of code and models) (terminal):
+    python manage.py startapp main_app
 
-python manage.py runserver
+# run the server(terminal):
+    python manage.py runserver  - ctl+c to stop it for next code edit
+
+
+
+# configure dataBase connections:
+    at ./PDR_Rest_API_Config/settings.py find DATABASES dictonery(object):
+
+        DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'todo',   # the database crated in postgresql name (if you dont have one, create one)
+            'USER': 'postgres',
+            'PASSWORD': '123', # pass to connect to the postgresSQL server
+            'HOST': '172.27.192.1', # localhost is the normal case, in my case this in the local port, i did this because the code in wsl and the postgresSQL in local
+            'PORT': '5432',
+            }
+        }
+
+# push models to the dataBase in postgresSQL (terminal):
+    python manage.py makemigrations
+    python manage.py migrate
+
+
+
+# create admin page (the fastest way to do CRUD):
+    at ./main_app/admin.py do:
+    1. import the model we have created:
+        from .models import Todo   (from .<fileName> import <ClassName>)
+
+    2. customize the appearing of the model in admin dashboard (tell the dashboard to make filed for each what we pass (3 fileds - title , description , completed)):
+        class TodoAdmin(admin.ModelAdmin):
+            list_display = ('title', 'description', 'completed')
+
+    3. Active/register the dashboard:
+        admin.site.register(Todo, TodoAdmin)
+
+    4. create superUser to enter the admin dashboard (terminal), and fellow the requirement after enter this command:
+        python manage.py createsuperuser
+
+    5. do to "http://127.0.0.1:8000/admin" and test the CRUD
+
+
+

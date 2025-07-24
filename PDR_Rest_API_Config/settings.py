@@ -74,11 +74,15 @@ WSGI_APPLICATION = 'PDR_Rest_API_Config.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+'default': {
+'ENGINE': 'django.db.backends.postgresql',
+'NAME': 'todo', 
+'USER': 'postgres',
+ 'PASSWORD': '123456789',
+'HOST': '172.27.192.1',
+ 'PORT': '5432',
+ }
+ }
 
 
 # Password validation
